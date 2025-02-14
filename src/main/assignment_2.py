@@ -42,9 +42,26 @@ def Langrangian(dataset, targetX):
 def Problem1(dataset, x) :
     result = 0
 
+    firstDegreeApproximations = []
+    approximationsMade = 0
+    #first degree approximations
+    for row, point in enumerate(dataset):
+        if(row == 0):
+            continue
 
+        inputForLagrange = [dataset[row - 1], dataset[row]]
 
-    print(f"{result}")
+        firstDegreeApproximations.append(Langrangian(inputForLagrange, x))
+        approximationsMade += 1
+
+    #second degree approximation
+    x0 = dataset[0][0]
+    x2 = dataset[2][0]
+
+    result = ((x - x0) * firstDegreeApproximations[1] - 
+             (x - x2) * firstDegreeApproximations[0]) / (x2 - x0)
+
+    print(f"{result}\n")
 
 def Problem2():
     result = 0
