@@ -3,21 +3,40 @@ import math
 
 #Neville's Method
 def Problem1(dataset, targetX):
-    result = 1.55
+    result = 0
 
     resultsTable = []
+    denomMultTable = []
 
-    print(f"Initial dataset Table: {dataset}, target x {targetX}")
+    for row, junkHolder in enumerate(dataset) :
+        numeratorForRow = 1
+        for rowi, junkHolderI in enumerate(dataset):
+            #skip own row
+            if(rowi == row):
+                continue
+            numeratorForRow *= (targetX - dataset[rowi][0])
+        
+        resultsTable.append(numeratorForRow)
 
-    datasetindex = 0
-    for rowX, fx in enumerate(dataset) :
-        print(f"Got rowX {rowX} and fx {fx} from this: {dataset[datasetindex]}")
-        datasetindex += 1
-        print(f"{targetX} - {dataset[rowX][0]} = {targetX-dataset[rowX][0]}")
-        resultsTable.append(targetX - dataset[rowX][0])
-        print(f"Current Result table: {resultsTable}")
+        #resultsTable.append(targetX - dataset[rowX][0])
+        #print(f"Current Result table: {resultsTable}")
+
+        denominatorForRow = 1
+        print(f"Row {row}: {dataset[row][0]}\ncombining denominators:")
+        for rowJ, junkHolderJ in enumerate(dataset):
+            if (rowJ == row):
+                continue
+            print(f"Checking {dataset[row][0]} - {dataset[rowJ][0]}")
+            denominatorForRow *= (dataset[row][0] - dataset[rowJ][0])
+        
+        denomMultTable.append(denominatorForRow)
 
     print(resultsTable)
+    print(denomMultTable)
+
+    for row, rowList in enumerate(dataset):
+        rowResult = (resultsTable[row] / denomMultTable[row]) * rowList[1]
+        result += rowResult
 
     #find number of pairs; 
     #for each pair, get the other two indexes; 
