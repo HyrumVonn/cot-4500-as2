@@ -2,7 +2,7 @@ import numpy
 import math
 
 #Neville's Method
-def Problem1(dataset, targetX):
+def Langrangian(dataset, targetX):
     result = 0
 
     resultsTable = []
@@ -22,17 +22,12 @@ def Problem1(dataset, targetX):
         #print(f"Current Result table: {resultsTable}")
 
         denominatorForRow = 1
-        print(f"Row {row}: {dataset[row][0]}\ncombining denominators:")
         for rowJ, junkHolderJ in enumerate(dataset):
             if (rowJ == row):
                 continue
-            print(f"Checking {dataset[row][0]} - {dataset[rowJ][0]}")
             denominatorForRow *= (dataset[row][0] - dataset[rowJ][0])
         
         denomMultTable.append(denominatorForRow)
-
-    print(resultsTable)
-    print(denomMultTable)
 
     for row, rowList in enumerate(dataset):
         rowResult = (resultsTable[row] / denomMultTable[row]) * rowList[1]
@@ -42,7 +37,14 @@ def Problem1(dataset, targetX):
     #for each pair, get the other two indexes; 
     #we can do some dynamic programming, 
 
-    print(f"{result}\n")
+    return result
+
+def Problem1(dataset, x) :
+    result = 0
+
+
+
+    print(f"{result}")
 
 def Problem2():
     result = 0
