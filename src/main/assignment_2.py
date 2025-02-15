@@ -89,12 +89,31 @@ def Problem2(dataSet):
 
     return differenceTable
 
-def Problem3():
-    result = 7.3
+def Problem3(dataset, x):
+    #get the diffTable from problem 2
+    diffTable = Problem2(dataset)
 
-    print(f"{result}")
+    pTable = []
 
-def Problem4():
+    #p0 is 
+    pTable.append(dataSet[0][1])
+
+    #fill out each p: get the coefficient, multiply it by (x - x0)...(x - xK-1)
+    for degree in range(1, len(dataSet)):
+        pCurrent = diffTable[degree][0]
+        for i in range(degree):
+            #retrieve every x indexed below the current degree (i.e., for degree 1, only x0, but
+            #for degree 2, x0 & x1)
+            pCurrent = pCurrent * (x - dataSet[i][0])
+
+        pPrev = pTable[degree - 1]
+
+        pTable.append(pPrev + pCurrent)
+    
+    result = pTable[len(pTable) - 1]
+    print(f"{result}\n")
+
+def Problem4(dataset):
     resultMatrix = [[3.6, 1.6, 0, 0, 0],
                     [3.6, 1.6, -1.1, 0, 0],
                     [3.8, 1.4, -1.1, -9.9, 0],
@@ -122,7 +141,6 @@ def Problem5():
 dataSet = [[3.6, 1.675], [3.8, 1.436], [3.9, 1.318]]
 targetX = 3.7
 
-Problem1(nevilleDataSet, nevilleTargetX)
 Problem1(dataSet, targetX)
 
 Problem2()
@@ -130,7 +148,6 @@ dataSet = [[7.2, 23.5492],
            [7.4, 25.3913],
            [7.5, 26.8224],
            [7.6, 27.4589]]
-targetX = 7.3
 
 #Newton's Forward Method table
 diffTable = Problem2(dataSet)
@@ -139,7 +156,8 @@ for index in range(1, len(diffTable)):
     print(diffTable[index][0])
 print()
 
-Problem3()
+targetX = 7.3
+Problem3(dataSet, targetX)
 
 Problem4()
 
