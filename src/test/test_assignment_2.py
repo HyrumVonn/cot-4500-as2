@@ -117,6 +117,91 @@ def Problem3(dataset, x):
     result = pTable[len(pTable) - 1]
     print(f"{result}\n")
 
+
+def PrintApproximationMatrixForP4(matrix):
+    for i in range(len(matrix[0])):
+        rowString = "["
+        for j in range(len(matrix)):
+            if(type(matrix[j][i]) == type(1.3)):
+                if(matrix[j][i] < 0) :
+                    rowString = rowString + f"{matrix[j][i]:.8E} "
+                else :
+                    rowString = rowString + f" {matrix[j][i]:.8E} "
+            else :
+                rowString = rowString + f" {matrix[j][i]}  "
+        print(f"{rowString}]")
+
+    print()
+
+
+def Problem4(dataSet):
+    approximationMatrix = []
+
+    xValues = []
+    for element in dataSet :
+        #append each x and f(x) twice; then, for f'(x), 
+        xValues.append(element[0])
+        xValues.append(element[0])
+    approximationMatrix.append(xValues)
+
+    fXValues = []
+    for element in dataSet :
+        #append each x and f(x) twice; then, for f'(x), 
+        fXValues.append(element[1])
+        fXValues.append(element[1])
+    approximationMatrix.append(fXValues)
+
+    
+    #used to mark which cells to go through in degree 1, and recalculate
+    placeHolderString = "FILL IN LATER"
+    fdXValues = []
+    for row, element in enumerate(dataSet) :
+        if(row == 0):
+            fdXValues.append(0.0)
+        else :
+            fdXValues.append(placeHolderString)
+        
+        fdXValues.append(element[2])
+    approximationMatrix.append(fdXValues)
+
+    #checking that it's working out, remove
+    PrintApproximationMatrixForP4(approximationMatrix) 
+    #in actual program
+
+    #the 1st degree requires a special case: going through, and only replacing the "Fill in Later"
+    for index, val in enumerate(approximationMatrix[2]) :
+        if(val != placeHolderString):
+            continue
+
+        x0 = approximationMatrix[0][index-1]
+        xN = approximationMatrix[0][index]
+
+        degree = 2
+        approximationMatrix[2][index] = (approximationMatrix[degree - 1][index] - 
+                                         approximationMatrix[degree - 1][index - 1]) / (xN - x0)
+        
+    #from the 2nd degree onward, treat as normal Divided Difference
+    for degree in range(2, len(xValues)):
+        nthDegree = []
+        for i in range(degree) :
+            nthDegree.append(0.0)
+
+        for index in range(degree, len(xValues)):
+            x0 = approximationMatrix[0][index - degree]
+            xN = approximationMatrix[0][index]
+
+            #normally, it'd be approxMat[degree - 1]... but due to including the x as element 0 
+            #in the approx matrix, degree 1 was treated as degree 2, and so on; indexing adjusted 
+            #accordingly
+            val = (approximationMatrix[degree][index] - 
+                   approximationMatrix[degree][index - 1]) / (xN - x0)
+            nthDegree.append(val)
+        approximationMatrix.append(nthDegree)
+
+    PrintApproximationMatrixForP4(approximationMatrix)
+        
+
+
 def PrintP2DataSet(dataSet):
     for index in range(1, len(dataSet)):
         print(dataSet[index][0])
@@ -158,3 +243,14 @@ diffTable = Problem2(dataSet)
 
 targetX = 7.3
 Problem3(dataSet, targetX)
+
+dataSet = [[1.3, .6200860, -.5220232],
+           [1.6, .4554022, -.5698959],
+           [1.9, .2818186, -.5811571]]
+Problem4(dataSet)
+
+dataSet = [[3.6, 1.675, -1.195],
+           [3.8, 1.436, -1.188],
+           [3.9, 1.318, -1.182]]
+
+Problem4(dataSet)
