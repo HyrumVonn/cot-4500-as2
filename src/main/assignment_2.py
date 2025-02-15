@@ -85,10 +85,9 @@ def Problem2(dataSet):
             value = (currentArray[index + 1] - currentArray[index]) / (xN - x0)
             nthDegree.append(value)
 
-        print(nthDegree[0])
         differenceTable.append(nthDegree)
 
-    print("\n")
+    return differenceTable
 
 def Problem3():
     result = 7.3
@@ -134,7 +133,11 @@ dataSet = [[7.2, 23.5492],
 targetX = 7.3
 
 #Newton's Forward Method table
-Problem2(dataSet)
+diffTable = Problem2(dataSet)
+
+for index in range(1, len(diffTable)):
+    print(diffTable[index][0])
+print()
 
 Problem3()
 
