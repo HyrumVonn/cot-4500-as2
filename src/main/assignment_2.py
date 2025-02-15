@@ -63,12 +63,30 @@ def Problem1(dataset, x) :
 
     print(f"{result}\n")
 
-def Problem2():
-    result = 0
+def Problem2(dataSet):
+    differenceTable = []
 
-    for degrees in range(1, 4):
-        result = degrees
-        print(f"{result}")
+    zerothDegree = []
+    #initialize difference table; 0th degree will just be y
+    for row, point in enumerate(dataSet):
+        zerothDegree.append(point[1])
+
+    differenceTable.append(zerothDegree)
+
+
+    for degree in range(1, len(dataSet)):
+        nthDegree = []
+
+        currentArray = differenceTable[degree - 1]
+        for index in range(len(currentArray) - 1): #element in enumerate(currentArray):
+            x0 = dataSet[index][0]
+            xN = dataSet[degree + index][0]
+            
+            value = (currentArray[index + 1] - currentArray[index]) / (xN - x0)
+            nthDegree.append(value)
+
+        print(nthDegree[0])
+        differenceTable.append(nthDegree)
 
     print("\n")
 
@@ -102,12 +120,21 @@ def Problem5():
 
 
 #main function setup
-nevilleDataSet = [[3.6, 1.675], [3.8, 1.436], [3.9, 1.318]]
-nevilleTargetX = 3.7
+dataSet = [[3.6, 1.675], [3.8, 1.436], [3.9, 1.318]]
+targetX = 3.7
 
 Problem1(nevilleDataSet, nevilleTargetX)
+Problem1(dataSet, targetX)
 
 Problem2()
+dataSet = [[7.2, 23.5492],
+           [7.4, 25.3913],
+           [7.5, 26.8224],
+           [7.6, 27.4589]]
+targetX = 7.3
+
+#Newton's Forward Method table
+Problem2(dataSet)
 
 Problem3()
 
