@@ -1,6 +1,5 @@
-#test to find desired precision to use on Newton-Raphson
+#various tests to ensure functions matched examples given in the slides
 import numpy
-import math
 
 #Neville's Method
 def Langrangian(dataset, targetX):

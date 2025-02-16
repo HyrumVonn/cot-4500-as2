@@ -1,5 +1,4 @@
 import numpy
-import math
 
 #Neville's Method
 def Langrangian(dataset, targetX):
