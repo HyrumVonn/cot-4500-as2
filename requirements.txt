@@ -1,0 +1,2 @@
+There should be no requirements to run the program besides numpy
+See my first assignment's requirements.txt for further information regarding numpy
