@@ -100,30 +100,99 @@ def Problem3(dataset, x):
 
     #fill out each p: get the coefficient, multiply it by (x - x0)...(x - xK-1)
     for degree in range(1, len(dataSet)):
+        pPrev = pTable[degree - 1]
         pCurrent = diffTable[degree][0]
         for i in range(degree):
             #retrieve every x indexed below the current degree (i.e., for degree 1, only x0, but
             #for degree 2, x0 & x1)
             pCurrent = pCurrent * (x - dataSet[i][0])
 
-        pPrev = pTable[degree - 1]
-
         pTable.append(pPrev + pCurrent)
     
     result = pTable[len(pTable) - 1]
     print(f"{result}\n")
 
-def Problem4(dataset):
-    resultMatrix = [[3.6, 1.6, 0, 0, 0],
-                    [3.6, 1.6, -1.1, 0, 0],
-                    [3.8, 1.4, -1.1, -9.9, 0],
-                    [3.8, 1.4, -1.1, 3.5, 1.75],
-                    [3.9, 1.3, -1.1, 8, -1.2],
-                    [3.9, 1.3, -1.1, -2, -1]]
-    for row, column in enumerate(resultMatrix):
-        print(f"[ {resultMatrix[row][0]} {resultMatrix[row][1]} {resultMatrix[row][2]} {resultMatrix[row][3]} {resultMatrix[row][4]}]")
+#helper function for P4
+def PrintApproximationMatrixForP4(matrix):
+    for i in range(len(matrix[0])):
+        rowString = "["
+        for j in range(5):
+            if(type(matrix[j][i]) == type(1.3)):
+                if(matrix[j][i] < 0) :
+                    rowString = rowString + f"{matrix[j][i]:.8E} "
+                else :
+                    rowString = rowString + f" {matrix[j][i]:.8E} "
+            else :
+                rowString = rowString + f" {matrix[j][i]}  "
+        print(f"{rowString}]")
 
-def Problem5():
+    print()
+
+
+def Problem4(dataSet):
+    approximationMatrix = []
+
+    xValues = []
+    for element in dataSet :
+        #append each x and f(x) twice; then, for f'(x), 
+        xValues.append(element[0])
+        xValues.append(element[0])
+    approximationMatrix.append(xValues)
+
+    fXValues = []
+    for element in dataSet :
+        #append each x and f(x) twice; then, for f'(x), 
+        fXValues.append(element[1])
+        fXValues.append(element[1])
+    approximationMatrix.append(fXValues)
+
+    
+    #used to mark which cells to go through in degree 1, and recalculate
+    placeHolderString = "FILL IN LATER"
+    fdXValues = []
+    for row, element in enumerate(dataSet) :
+        if(row == 0):
+            fdXValues.append(0.0)
+        else :
+            fdXValues.append(placeHolderString)
+        
+        fdXValues.append(element[2])
+    approximationMatrix.append(fdXValues)
+
+    #the 1st degree requires a special case: going through, and only replacing the "Fill in Later"
+    for index, val in enumerate(approximationMatrix[2]) :
+        if(val != placeHolderString):
+            continue
+
+        x0 = approximationMatrix[0][index-1]
+        xN = approximationMatrix[0][index]
+
+        degree = 2
+        approximationMatrix[2][index] = (approximationMatrix[degree - 1][index] - 
+                                         approximationMatrix[degree - 1][index - 1]) / (xN - x0)
+        
+    #from the 2nd degree onward, treat as normal Divided Difference
+    for degree in range(2, len(xValues)):
+        nthDegree = []
+        for i in range(degree) :
+            nthDegree.append(0.0)
+
+        for index in range(degree, len(xValues)):
+            x0 = approximationMatrix[0][index - degree]
+            xN = approximationMatrix[0][index]
+
+            #normally, it'd be approxMat[degree - 1]... but due to including the x as element 0 
+            #in the approx matrix, degree 1 was treated as degree 2, and so on; indexing adjusted 
+            #accordingly
+            val = (approximationMatrix[degree][index] - 
+                   approximationMatrix[degree][index - 1]) / (xN - x0)
+            nthDegree.append(val)
+        approximationMatrix.append(nthDegree)
+
+    PrintApproximationMatrixForP4(approximationMatrix)
+
+
+def Problem5(dataset):
     matrixA = [[1.0, 0.0, 0.0, 0.0],
                [3.0, 12.0, 3.0, 0.0],
                [0.0, 3.0, 10.0, 2.0],
@@ -143,7 +212,6 @@ targetX = 3.7
 
 Problem1(dataSet, targetX)
 
-Problem2()
 dataSet = [[7.2, 23.5492],
            [7.4, 25.3913],
            [7.5, 26.8224],
@@ -159,6 +227,17 @@ print()
 targetX = 7.3
 Problem3(dataSet, targetX)
 
-Problem4()
 
-Problem5()
+dataSet = [[3.6, 1.675, -1.195],
+           [3.8, 1.436, -1.188],
+           [3.9, 1.318, -1.182]]
+
+#divided difference method
+Problem4(dataSet)
+
+dataSet = [[2, 3],
+           [5, 5],
+           [8, 7],
+           [10, 9]]
+#cubic spline interpolation
+Problem5(dataSet)
