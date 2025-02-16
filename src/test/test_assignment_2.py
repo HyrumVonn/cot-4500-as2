@@ -208,8 +208,6 @@ def P5PrintMatrix(matrix) :
             rowString = rowString + ' {0: <4}'.format(matrix[i][j])
         print(f"{rowString}]")
 
-    print()
-
 def PrintVector(vector) :
     rowString = "["
     for index in range(len(vector)) :
@@ -220,10 +218,17 @@ def PrintVector(vector) :
         
 def Problem5(dataSet) :
     n = len(dataSet) - 1
+
+    x = []
+    aArray = []
+    for i, point in enumerate(dataSet):
+        x.append(point[0])
+        aArray.append(point[1])
+
     hArray = []
 
     for i in range(n) :
-        hArray.append(dataSet[i + 1][0] - dataSet[i][0])
+        hArray.append(x[i + 1] - x[i])
 
     #matrix declaration
     A = []
@@ -251,7 +256,7 @@ def Problem5(dataSet) :
         nthRow.append( 2 * ( hArray[i] + hArray[i + 1]) )
         nthRow.append(hArray[i + 1])
 
-        for numZeros in range(hlen - 2 + i, hlen) :
+        for numZeros in range(hlen - 1 + i, hlen) :
             nthRow.append(0.0)
 
         A.append(nthRow)
@@ -262,12 +267,17 @@ def Problem5(dataSet) :
     #find Vector b
     vectorB = []
 
+    vectorB.append(0)
+
+    for i in range(1, n) :
+        val = 3 * ((aArray[i + 1] - aArray[i]) / float(hArray[i]) - 
+                   (aArray[i] - aArray[i - 1]) / float(hArray[i - 1]))
+        vectorB.append(val)
+    vectorB.append(0)
     PrintVector(vectorB)
 
-
     #Vector x
-    vectorX = []
-
+    vectorX = numpy.linalg.solve(A, vectorB) 
     PrintVector(vectorX)
 
 
