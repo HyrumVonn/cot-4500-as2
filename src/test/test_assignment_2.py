@@ -199,58 +199,128 @@ def Problem4(dataSet):
         approximationMatrix.append(nthDegree)
 
     PrintApproximationMatrixForP4(approximationMatrix)
-        
 
+#helper function for p5: mostly the same as the one for p4
+def P5PrintMatrix(matrix) :
+    for i in range(len(matrix[0])):
+        rowString = "["
+        for j in range(len(matrix)):
+            rowString = rowString + ' {0: <3}'.format(matrix[i][j])
+        print(f"{rowString}]")
+
+    print()
+
+        
+def Problem5(dataSet) :
+    n = len(dataSet) - 1
+    hArray = []
+
+    for i in range(n) :
+        hArray.append(dataSet[i + 1][0] - dataSet[i][0])
+
+    #matrix declaration
+    A = []
+    #setting first and final rows
+    row = []
+    finalRow = []
+    row.append(1.)
+    for j in range(n) :
+        row.append(0.)
+        finalRow.append(0.)
+    finalRow.append(1.)
+
+    A.append(row)
+
+    #matrix generation
+    for i, value in enumerate(hArray) :
+        hlen = len(hArray)
+        if(i == hlen - 1) :
+            continue
+        nthRow = []
+        for numZeros in range(i) :
+            nthRow.append(0.0)
+
+        nthRow.append(hArray[i])
+        nthRow.append( 2 * ( hArray[i] + hArray[i + 1]) )
+        nthRow.append(hArray[i + 1])
+
+        for numZeros in range(hlen - 2 + i, hlen) :
+            nthRow.append(0.0)
+
+        A.append(nthRow)
+    A.append(finalRow)
+
+    P5PrintMatrix(A)
+
+
+    value = 1
+
+    return value
 
 def PrintP2DataSet(dataSet):
     for index in range(1, len(dataSet)):
         print(dataSet[index][0])
     print()
 
-testMatrix = [[2.0, 0.6931],
-              [2.2, 0.7885],
-              [2.3, 0.8329]]
-x = 2.1
+# testMatrix = [[2.0, 0.6931],
+#               [2.2, 0.7885],
+#               [2.3, 0.8329]]
+# x = 2.1
 
-Problem1(testMatrix, x)
+# Problem1(testMatrix, x)
 
-print("Page 15 of slides (program example):")
-dataSet = [[1, .7651977],
-           [1.3, .6200860],
-           [1.6, .4554022],
-           [1.9, .2818186],
-           [2.2, .1103623]]
+# print("Page 15 of slides (program example):")
+# dataSet = [[1, .7651977],
+#            [1.3, .6200860],
+#            [1.6, .4554022],
+#            [1.9, .2818186],
+#            [2.2, .1103623]]
 
-PrintP2DataSet(Problem2(dataSet))
+# PrintP2DataSet(Problem2(dataSet))
 
-print("Page 14 of Slides (the example beginning with (8.1, 16.9)...)")
-dataSet = [[8.1, 16.94410],
-           [8.3, 17.56492],
-           [8.6, 18.50515],
-           [8.7, 18.82091]]
+# print("Page 14 of Slides (the example beginning with (8.1, 16.9)...)")
+# dataSet = [[8.1, 16.94410],
+#            [8.3, 17.56492],
+#            [8.6, 18.50515],
+#            [8.7, 18.82091]]
 
-PrintP2DataSet(Problem2(dataSet))
-Problem3(dataSet, 8.4)
+# PrintP2DataSet(Problem2(dataSet))
+# Problem3(dataSet, 8.4)
 
-print("Problem3 Data given: ")
-dataSet = [[7.2, 23.5492],
-           [7.4, 25.3913],
-           [7.5, 26.8224],
-           [7.6, 27.4589]]
+# print("Problem3 Data given: ")
+# dataSet = [[7.2, 23.5492],
+#            [7.4, 25.3913],
+#            [7.5, 26.8224],
+#            [7.6, 27.4589]]
 
-#Newton's Forward Method table
-diffTable = Problem2(dataSet)
+# #Newton's Forward Method table
+# diffTable = Problem2(dataSet)
 
-targetX = 7.3
-Problem3(dataSet, targetX)
+# targetX = 7.3
+# Problem3(dataSet, targetX)
 
-dataSet = [[1.3, .6200860, -.5220232],
-           [1.6, .4554022, -.5698959],
-           [1.9, .2818186, -.5811571]]
-Problem4(dataSet)
+# dataSet = [[1.3, .6200860, -.5220232],
+#            [1.6, .4554022, -.5698959],
+#            [1.9, .2818186, -.5811571]]
+# Problem4(dataSet)
 
-dataSet = [[3.6, 1.675, -1.195],
-           [3.8, 1.436, -1.188],
-           [3.9, 1.318, -1.182]]
+# dataSet = [[3.6, 1.675, -1.195],
+#            [3.8, 1.436, -1.188],
+#            [3.9, 1.318, -1.182]]
 
-Problem4(dataSet)
+# Problem4(dataSet)
+
+dataSet = [[0,1],
+           [1,2],
+           [2,4],
+           [3,8]]
+
+Problem5(dataSet)
+
+
+dataSet = [[2, 3],
+           [5, 5],
+           [8, 7],
+           [10, 9]]
+
+Problem5(dataSet)
