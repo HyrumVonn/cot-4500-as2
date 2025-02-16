@@ -192,18 +192,85 @@ def Problem4(dataSet):
     PrintApproximationMatrixForP4(approximationMatrix)
 
 
-def Problem5(dataset):
-    matrixA = [[1.0, 0.0, 0.0, 0.0],
-               [3.0, 12.0, 3.0, 0.0],
-               [0.0, 3.0, 10.0, 2.0],
-               [0.0, 0.0, 0.0, 1.0],
-               [0.0, 0.0, 1.0, 0.0]]
-    
-    vectorB = [0.0, -0.027]
-    vectorA = [0.108, 0.0]
+#helper function for p5: mostly the same as the one for p4
+def P5PrintMatrix(matrix) :
+    for i in range(len(matrix[0])):
+        rowString = "["
+        for j in range(len(matrix)):
+            rowString = rowString + ' {0: <4}'.format(matrix[i][j])
+        print(f"{rowString}]")
 
-    print(matrixA)
-    print(f"[{vectorB[0]} {vectorB[1]} {vectorA[0]} {vectorA[1]}]")
+def PrintVector(vector) :
+    rowString = "["
+    for index in range(len(vector)) :
+        rowString = rowString + f"{vector[index]} "
+
+    print(f"{rowString}]")       
+
+        
+def Problem5(dataSet) :
+    n = len(dataSet) - 1
+
+    x = []
+    aArray = []
+    for i, point in enumerate(dataSet):
+        x.append(point[0])
+        aArray.append(point[1])
+
+    hArray = []
+
+    for i in range(n) :
+        hArray.append(x[i + 1] - x[i])
+
+    #matrix declaration
+    A = []
+    #setting first and final rows
+    row = []
+    finalRow = []
+    row.append(1.)
+    for j in range(n) :
+        row.append(0.)
+        finalRow.append(0.)
+    finalRow.append(1.)
+
+    A.append(row)
+
+    #matrix generation
+    for i, value in enumerate(hArray) :
+        hlen = len(hArray)
+        if(i == hlen - 1) :
+            continue
+        nthRow = []
+        for numZeros in range(i) :
+            nthRow.append(0.0)
+
+        nthRow.append(hArray[i])
+        nthRow.append( 2 * ( hArray[i] + hArray[i + 1]) )
+        nthRow.append(hArray[i + 1])
+
+        for numZeros in range(hlen - 1 + i, hlen) :
+            nthRow.append(0.0)
+
+        A.append(nthRow)
+    A.append(finalRow)
+
+    P5PrintMatrix(A)
+
+    #find Vector b
+    vectorB = []
+
+    vectorB.append(0)
+
+    for i in range(1, n) :
+        val = 3 * ((aArray[i + 1] - aArray[i]) / float(hArray[i]) - 
+                   (aArray[i] - aArray[i - 1]) / float(hArray[i - 1]))
+        vectorB.append(val)
+    vectorB.append(0)
+    PrintVector(vectorB)
+
+    #Vector x
+    vectorX = numpy.linalg.solve(A, vectorB) 
+    PrintVector(vectorX)
 
 
 #main function setup
