@@ -205,10 +205,17 @@ def P5PrintMatrix(matrix) :
     for i in range(len(matrix[0])):
         rowString = "["
         for j in range(len(matrix)):
-            rowString = rowString + ' {0: <3}'.format(matrix[i][j])
+            rowString = rowString + ' {0: <4}'.format(matrix[i][j])
         print(f"{rowString}]")
 
     print()
+
+def PrintVector(vector) :
+    rowString = "["
+    for index in range(len(vector)) :
+        rowString = rowString + f"{vector[index]} "
+
+    print(f"{rowString}]")       
 
         
 def Problem5(dataSet) :
@@ -252,10 +259,18 @@ def Problem5(dataSet) :
 
     P5PrintMatrix(A)
 
+    #find Vector b
+    vectorB = []
 
-    value = 1
+    PrintVector(vectorB)
 
-    return value
+
+    #Vector x
+    vectorX = []
+
+    PrintVector(vectorX)
+
+
 
 def PrintP2DataSet(dataSet):
     for index in range(1, len(dataSet)):
@@ -318,9 +333,9 @@ dataSet = [[0,1],
 Problem5(dataSet)
 
 
-dataSet = [[2, 3],
-           [5, 5],
-           [8, 7],
-           [10, 9]]
+# dataSet = [[2, 3],
+#            [5, 5],
+#            [8, 7],
+#            [10, 9]]
 
-Problem5(dataSet)
+# Problem5(dataSet)
